@@ -32,7 +32,7 @@ CREATE TABLE usuarios (
 );
 
 ALTER TABLE usuarios
-ADD CONSTRAINT unique_email UNIQUE (correo);
+ADD CONSTRAINT unique_email UNIQUE (email);
 
 CREATE TABLE sesiones (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
