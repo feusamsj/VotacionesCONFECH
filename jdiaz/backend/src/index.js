@@ -4,6 +4,7 @@ import dotenv from "dotenv";
 import usuariosRoutes from "./routes/users.js";
 import votacionRoutes from "./routes/votacion.js";
 import authRoutes from "./routes/auth.js";
+import votacionesRoutes from "./routes/votaciones.js";
 
 dotenv.config();
 
@@ -14,6 +15,7 @@ app.use(express.json());
 
 app.use("/api/users", usuariosRoutes);
 app.use("/api/votacion", votacionRoutes);
+app.use("/api/votaciones", votacionesRoutes);
 
 app.use("/auth", authRoutes);
 

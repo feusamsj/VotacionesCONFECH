@@ -7,7 +7,7 @@ export const requestOtp = async (req, res) => {
 
   try {
     // 1. verificar usuario existe
-    const user = await pool.query("SELECT id FROM usuarios WHERE correo = $1", [
+    const user = await pool.query("SELECT id FROM usuarios WHERE email = $1", [
       email,
     ]);
 
@@ -62,7 +62,7 @@ export const verifyOtp = async (req, res) => {
     ]);
 
     // 3. obtener usuario
-    const user = await pool.query("SELECT id FROM usuarios WHERE correo = $1", [
+    const user = await pool.query("SELECT id FROM usuarios WHERE email = $1", [
       email,
     ]);
 
