@@ -54,10 +54,10 @@ const Index = () => {
 
     setLoading(true);
     try {
-      const res = await fetch(`${API_BASE_URL}/auth/verify-password`, {
+      const res = await fetch(`${API_BASE_URL}/auth/verify-otp`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, password }),
+        body: JSON.stringify({ email, code: password }),
       });
 
       if (!res.ok) {
