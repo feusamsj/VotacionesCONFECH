@@ -2,46 +2,47 @@ import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Vote, ArrowLeft, Calendar, Users, Clock } from "lucide-react";
 
-const votaciones = [
-  {
-    id: 1,
-    title: "Junta Directiva 2026",
-    description: "Elección de los nuevos miembros de la junta directiva para el próximo periodo.",
-    deadline: "Cierra en 3 días",
-    participants: 248,
-    status: "Activa",
-    accent: "from-primary to-primary-glow",
-  },
-  {
-    id: 2,
-    title: "Presupuesto Anual",
-    description: "Aprobación del presupuesto general y distribución de recursos para 2026.",
-    deadline: "Cierra en 7 días",
-    participants: 189,
-    status: "Activa",
-    accent: "from-accent to-primary",
-  },
-  {
-    id: 3,
-    title: "Reforma del Reglamento",
-    description: "Propuesta de modificación de los artículos 12, 15 y 23 del reglamento interno.",
-    deadline: "Cierra en 14 días",
-    participants: 92,
-    status: "Activa",
-    accent: "from-primary-glow to-accent",
-  },
-  {
-    id: 4,
-    title: "Sede del Próximo Encuentro",
-    description: "Selección de la ciudad anfitriona para la asamblea anual del próximo año.",
-    deadline: "Próximamente",
-    participants: 0,
-    status: "Pronto",
-    accent: "from-secondary to-muted",
-  },
-];
+import { useEffect, useState } from "react";
 
 const Votaciones = () => {
+  const [votaciones, setVotaciones] = useState([]);
+
+  useEffect(() => {
+    const obtenerVotaciones = async () => {
+      try {
+        const res = await fetch("http://localhost:3005/api/votaciones"); // cambia esto
+        const data = await res.json();
+
+        const adaptadas = data.map((v) => ({
+          id: v.id,
+          title: v.nombre,
+          description: v.descripcion,
+          deadline: calcularDeadline(v.fecha_fin),
+          participants: 0,
+          status: v.activa ? "Activa" : "Cerrada",
+          accent: "from-primary to-primary-glow",
+        }));
+
+        setVotaciones(adaptadas);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    obtenerVotaciones();
+  }, []);
+
+  const calcularDeadline = (fechaFin) => {
+    const hoy = new Date();
+    const fin = new Date(fechaFin);
+
+    const diff = Math.ceil((fin - hoy) / (1000 * 60 * 60 * 24));
+
+    if (diff <= 0) return "Cerrada";
+    if (diff === 1) return "Cierra mañana";
+    return `Cierra en ${diff} días`;
+  };
+
   return (
     <main className="min-h-screen bg-gradient-hero">
       <div className="pointer-events-none fixed -top-40 right-0 h-[400px] w-[400px] rounded-full bg-primary/10 blur-3xl" />
@@ -124,11 +125,16 @@ const Votaciones = () => {
                 </div>
 
                 <Button
+                  asChild={v.status === "Activa"}
                   className="mt-8 w-full"
                   variant={v.status === "Activa" ? "hero" : "secondary"}
                   disabled={v.status !== "Activa"}
                 >
-                  {v.status === "Activa" ? "Votar ahora" : "No disponible"}
+                  {v.status === "Activa" ? (
+                    <Link to={`/votaciones/${v.id}`}>Votar ahora</Link>
+                  ) : (
+                    "No disponible"
+                  )}
                 </Button>
               </div>
             </article>
@@ -140,3 +146,4 @@ const Votaciones = () => {
 };
 
 export default Votaciones;
+
