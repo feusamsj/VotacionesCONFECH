@@ -14,11 +14,9 @@ CREATE TABLE carreras (
 
 CREATE TABLE usuarios (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    correo TEXT UNIQUE NOT NULL,
+    email TEXT UNIQUE NOT NULL,
 
-    nombres TEXT NOT NULL,
-    apellido_paterno TEXT NOT NULL,
-    apellido_materno TEXT,
+    nombre TEXT NOT NULL,
 
     carrera_id INTEGER,
     status BOOLEAN NOT NULL DEFAULT TRUE,
