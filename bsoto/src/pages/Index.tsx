@@ -6,7 +6,7 @@ import { Vote, ArrowRight, ShieldCheck, KeyRound, Mail, Loader2 } from "lucide-r
 import { toast } from "@/hooks/use-toast";
 
 // TODO: reemplazar por la URL real del backend cuando esté listo
-const API_BASE_URL = "http://localhost:8000";
+const API_BASE_URL = "http://localhost:3005";
 
 const Index = () => {
   const navigate = useNavigate();
@@ -21,7 +21,7 @@ const Index = () => {
 
     setLoading(true);
     try {
-      const res = await fetch(`${API_BASE_URL}/auth/request-password`, {
+      const res = await fetch(`${API_BASE_URL}/auth/request-otp`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email }),

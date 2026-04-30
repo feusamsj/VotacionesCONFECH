@@ -1,29 +1,3 @@
--- ======================================
--- INSERT CARRERAS
--- ======================================
-
-INSERT INTO carreras (nombre) VALUES ('Arquitectura') ON CONFLICT (nombre) DO NOTHING;
-INSERT INTO carreras (nombre) VALUES ('Ingeniería Civil') ON CONFLICT (nombre) DO NOTHING;
-INSERT INTO carreras (nombre) VALUES ('Ingeniería Civil Eléctrica') ON CONFLICT (nombre) DO NOTHING;
-INSERT INTO carreras (nombre) VALUES ('Ingeniería Civil Física') ON CONFLICT (nombre) DO NOTHING;
-INSERT INTO carreras (nombre) VALUES ('Ingeniería Civil Informática') ON CONFLICT (nombre) DO NOTHING;
-INSERT INTO carreras (nombre) VALUES ('Ingeniería Civil Matemática') ON CONFLICT (nombre) DO NOTHING;
-INSERT INTO carreras (nombre) VALUES ('Ingeniería Civil Mecánica') ON CONFLICT (nombre) DO NOTHING;
-INSERT INTO carreras (nombre) VALUES ('Ingeniería Civil Plan Común') ON CONFLICT (nombre) DO NOTHING;
-INSERT INTO carreras (nombre) VALUES ('Ingeniería Civil Química') ON CONFLICT (nombre) DO NOTHING;
-INSERT INTO carreras (nombre) VALUES ('Ingeniería Civil Telemática') ON CONFLICT (nombre) DO NOTHING;
-INSERT INTO carreras (nombre) VALUES ('Ingeniería Civil de Minas') ON CONFLICT (nombre) DO NOTHING;
-INSERT INTO carreras (nombre) VALUES ('Ingeniería Ejecución en Software') ON CONFLICT (nombre) DO NOTHING;
-INSERT INTO carreras (nombre) VALUES ('Ingeniería en Diseño de Productos') ON CONFLICT (nombre) DO NOTHING;
-INSERT INTO carreras (nombre) VALUES ('Licenciatura en Astrofísica') ON CONFLICT (nombre) DO NOTHING;
-INSERT INTO carreras (nombre) VALUES ('Licenciatura en ciencias Mención Física') ON CONFLICT (nombre) DO NOTHING;
-INSERT INTO carreras (nombre) VALUES ('Técnico en mantenimiento aeronáutico') ON CONFLICT (nombre) DO NOTHING;
-
--- ======================================
--- INSERT USUARIOS
--- ======================================
-
-
 INSERT INTO usuarios (email, nombre, carrera_id)
 VALUES (
     'tabatha.estay@usm.cl',
