@@ -7,10 +7,13 @@ import { useEffect, useState } from "react";
 const Votaciones = () => {
   const [votaciones, setVotaciones] = useState([]);
 
+const API_BASE_URL = "http://localhost:3005";
+
   useEffect(() => {
     const obtenerVotaciones = async () => {
       try {
-        const res = await fetch("http://localhost:3005/api/votaciones"); // cambia esto
+        console.log("Obteniendo lista de votaciones...");
+        const res = await fetch(`${API_BASE_URL}/api/votaciones`); // cambia esto
         const data = await res.json();
 
         const adaptadas = data.map((v) => ({
@@ -131,7 +134,7 @@ const Votaciones = () => {
                   disabled={v.status !== "Activa"}
                 >
                   {v.status === "Activa" ? (
-                    <Link to={`/votaciones/${v.id}`}>Votar ahora</Link>
+                    <Link to={`/votaciones/${v.id}`}>Votar ahora {v.id}</Link>
                   ) : (
                     "No disponible"
                   )}

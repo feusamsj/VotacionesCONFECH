@@ -5,6 +5,7 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Label } from "@/components/ui/label";
 import { Vote, ArrowLeft, Clock, Users, Loader2, CheckCircle2 } from "lucide-react";
 import { toast } from "@/hooks/use-toast";
+const API_BASE_URL = "http://localhost:3005";
 
 const Votacion = () => {
   const { id } = useParams<{ id: string }>();
@@ -22,7 +23,9 @@ const Votacion = () => {
     const init = async () => {
       try {
         // 🔸 traer votación real
-        const res = await fetch(`http://localhost:3000/votaciones/${id}`);
+        console.log("Obteniendo detalles de la votación con ID:", id);
+        const res = await fetch(`${API_BASE_URL}/api/votaciones/${id}`);
+        console.log("Respuesta del backend:", res);
         const data = await res.json();
 
         setVotacion({
@@ -30,12 +33,19 @@ const Votacion = () => {
           question: data.descripcion,
           deadline: calcularDeadline(data.fecha_fin),
           participants: 0,
-          options: data.opciones || [], // depende de tu backend
+          options: data.opciones || [{ id: "1", label: "si" },{ id: "2", label: "no" }], // depende de tu backend
         });
 
         // 🔸 pedir token al backend
-        const tokenRes = await fetch(`http://localhost:3000/votaciones/${id}/token`, {
+        const tokenRes = await fetch(`${API_BASE_URL}/api/votacion/token`, {
           method: "POST",
+          headers: {
+              "Content-Type": "application/json",
+              Authorization: "Bearer TOKEN_FAKE_POR_AHORA", // 👈 reemplaza después
+            },
+            body: JSON.stringify({
+              votacion_id: id,
+            }),
         });
 
         const tokenData = await tokenRes.json();
@@ -71,18 +81,18 @@ const Votacion = () => {
     setLoading(true);
 
     try {
-      const res = await fetch(`http://localhost:3000/votos`, {
+      const res = await fetch(`${API_BASE_URL}/api/votaciones/votar`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify({
+          token: token, //  token anonimo
           votacion_id: id,
-          opcion_id: selected,
+          opciones: [selected], // array
         }),
       });
-
+      
       const data = await res.json();
 
       toast({
