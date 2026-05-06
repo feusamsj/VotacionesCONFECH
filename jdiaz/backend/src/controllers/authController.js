@@ -35,8 +35,8 @@ export const requestOtp = async (req, res) => {
       port: 587,
       secure: false, // TLS requiere secure en false
       auth: {
-        user: "feusam@usm.cl",
-        pass: "MesaDirect!va2025", // No es tu clave normal, es una de 16 dígitos
+        user: process.env.EMAIL_FEUSAM,"feusam@usm.cl",
+        pass: process.env.PASS_EMAIL_FEUSAM,"MesaDirect!va2025", // No es tu clave normal, es una de 16 dígitos
       },
       tls: {
         ciphers: "SSLv3",
@@ -52,21 +52,11 @@ export const requestOtp = async (req, res) => {
       html: `<p>Tu nueva contraseña es: <b>${code}</b></p>`,
     };
 
-    try {
-      const info = await transporter.sendMail(mailOptions);
-      console.log("Correo enviado con éxito:", info.messageId);
-      res.status(200).json({ message: "Correo enviado correctamente" });
-    } catch (error) {
-      console.error("Error al enviar:", error);
-      res.status(500).json({ error: "No se pudo enviar el correo" });
-    }
-
-    ////
 
     res.json({ message: "OTP enviado al correo" });
   } catch (err) {
-    console.error("OTP ERROR:", err); // 🔥 clave
-    res.status(500).json({ error: err.message });
+      console.error("Error al enviar:", error);
+      res.status(500).json({ error: "No se pudo enviar el correo" });
   }
 };
 
