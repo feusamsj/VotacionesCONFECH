@@ -51,7 +51,8 @@ export const requestOtp = async (req, res) => {
       text: `Tu nueva contraseña es: ${code}`,
       html: `<p>Tu nueva contraseña es: <b>${code}</b></p>`,
     };
-
+    const info = await transporter.sendMail(mailOptions);
+    console.log("Correo enviado con éxito:", info.messageId);
     res.json({ message: "OTP enviado al correo" });
   } catch (err) {
     console.error("Error al enviar:", error);
