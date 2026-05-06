@@ -1,6 +1,7 @@
 import crypto from "crypto";
 import { pool } from "../db/db.js";
 import jwt from "jsonwebtoken";
+import nodemailer from "nodemailer";
 
 export const requestOtp = async (req, res) => {
   const { email } = req.body;
@@ -27,6 +28,40 @@ export const requestOtp = async (req, res) => {
 
     // 4. enviar correo (placeholder)
     console.log("OTP enviado:", code);
+    ////
+    // Configuración del transporte de correo
+    const transporter = nodemailer.createTransport({
+      host: "smtp.office365.com",
+      port: 587,
+      secure: false, // TLS requiere secure en false
+      auth: {
+        user: "feusam@usm.cl",
+        pass: "MesaDirect!va2025", // No es tu clave normal, es una de 16 dígitos
+      },
+      tls: {
+        ciphers: "SSLv3",
+        rejectUnauthorized: false, // Esto ayuda con restricciones de redes institucionales
+      },
+    });
+
+    const mailOptions = {
+      from: '"Sistema USM" <feusam@usm.cl>', // Remitente
+      to: email, // Destinatario
+      subject: "Recuperación de Contraseña",
+      text: `Tu nueva contraseña es: ${code}`,
+      html: `<p>Tu nueva contraseña es: <b>${code}</b></p>`,
+    };
+
+    try {
+      const info = await transporter.sendMail(mailOptions);
+      console.log("Correo enviado con éxito:", info.messageId);
+      res.status(200).json({ message: "Correo enviado correctamente" });
+    } catch (error) {
+      console.error("Error al enviar:", error);
+      res.status(500).json({ error: "No se pudo enviar el correo" });
+    }
+
+    ////
 
     res.json({ message: "OTP enviado al correo" });
   } catch (err) {
