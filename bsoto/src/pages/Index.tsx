@@ -86,14 +86,18 @@ const Index = () => {
       <div className="relative z-10 flex min-h-screen flex-col">
         <header className="flex items-center justify-between px-8 py-6 md:px-16">
           <div className="flex items-center gap-2">
-            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-primary shadow-glow">
-              <Vote className="h-5 w-5 text-primary-foreground" />
+            <div className="flex h-10 w-10 items-center justify-center overflow-hidden rounded-xl shadow-glow">
+              <img
+                src="/feusam.png"
+                alt="FEUSAM"
+                className="h-full w-full object-contain"
+              />
             </div>
-            <span className="font-display text-2xl font-bold tracking-tight">Voto</span>
+            <span className="font-display text-2xl font-bold tracking-tight">FEUSAM</span>
           </div>
           <span className="hidden items-center gap-2 rounded-full border border-border bg-card/50 px-4 py-2 text-xs text-muted-foreground backdrop-blur md:inline-flex">
             <ShieldCheck className="h-3.5 w-3.5 text-primary" />
-            Votación segura y verificada
+            Votación segura
           </span>
         </header>
 
@@ -110,8 +114,7 @@ const Index = () => {
           </h1>
 
           <p className="mt-8 max-w-xl text-lg text-muted-foreground md:text-xl">
-            Participa en las decisiones que importan. Una plataforma elegante,
-            simple y transparente para emitir tu voto.
+            Participa en las decisiones que importan.
           </p>
 
           {step === "email" ? (
@@ -178,7 +181,7 @@ const Index = () => {
         </section>
 
         <footer className="px-8 py-6 text-center text-xs text-muted-foreground">
-          © 2026 Voto · Construido con confianza
+          © 2026 Votos · FEUSAM SJ
         </footer>
       </div>
     </main>

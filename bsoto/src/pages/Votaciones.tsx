@@ -53,10 +53,14 @@ const API_BASE_URL = "http://localhost:3005";
       <div className="relative z-10 mx-auto max-w-6xl px-6 py-10 md:px-10 md:py-16">
         <header className="mb-12 flex items-center justify-between">
           <Link to="/" className="flex items-center gap-2">
-            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-primary shadow-glow">
-              <Vote className="h-5 w-5 text-primary-foreground" />
+            <div className="flex h-10 w-10 items-center justify-center overflow-hidden rounded-xl shadow-glow">
+              <img
+                src="/feusam.png"
+                alt="FEUSAM"
+                className="h-full w-full object-contain"
+              />
             </div>
-            <span className="font-display text-2xl font-bold tracking-tight">Voto</span>
+            <span className="font-display text-2xl font-bold tracking-tight">FEUSAM</span>
           </Link>
           <Button asChild variant="ghost" size="sm">
             <Link to="/">
@@ -134,7 +138,7 @@ const API_BASE_URL = "http://localhost:3005";
                   disabled={v.status !== "Activa"}
                 >
                   {v.status === "Activa" ? (
-                    <Link to={`/votaciones/${v.id}`}>Votar ahora {v.id}</Link>
+                    <Link to={`/votaciones/${v.id}`}>Votar ahora</Link>
                   ) : (
                     "No disponible"
                   )}

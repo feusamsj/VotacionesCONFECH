@@ -74,44 +74,80 @@ const Votacion = () => {
   };
 
   // 🔹 2. votar REAL
-  const handleSubmit = async (e: FormEvent) => {
-    e.preventDefault();
-    if (!selected || loading || !token) return;
+const handleSubmit = async (e: FormEvent) => {
+  e.preventDefault();
 
-    setLoading(true);
+  // 🔹 validaciones básicas
+  if (!selected) {
+    toast({
+      title: "Selecciona una opción",
+      description: "Debes elegir una opción antes de votar.",
+    });
+    return;
+  }
 
-    try {
-      const res = await fetch(`${API_BASE_URL}/api/votaciones/votar`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          token: token, //  token anonimo
-          votacion_id: id,
-          opciones: [selected], // array
-        }),
-      });
-      
-      const data = await res.json();
+  if (!token) {
+    toast({
+      title: "Error",
+      description: "No se pudo generar el token de votación.",
+    });
+    return;
+  }
 
-      toast({
-        title: "¡Voto registrado!",
-        description: "Tu voto se ha enviado correctamente.",
-      });
+  if (loading) return;
 
-      navigate("/votaciones");
+  setLoading(true);
 
-    } catch (err) {
-      console.error(err);
-      toast({
-        title: "Error",
-        description: "No se pudo registrar el voto.",
-      });
-    } finally {
-      setLoading(false);
+  try {
+    console.log("Enviando voto:", {
+      token,
+      votacion_id: id,
+      opciones: [selected],
+    });
+
+    const res = await fetch(`${API_BASE_URL}/api/votaciones/votar`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        token: token,
+        votacion_id: id,
+        opciones: [selected],
+      }),
+    });
+
+    // 🔹 manejo de error backend
+    if (!res.ok) {
+      throw new Error("Error al votar");
     }
-  };
+
+    const data = await res.json();
+
+    toast({
+      title: "¡Voto registrado!",
+      description: "Tu voto fue enviado correctamente.",
+    });
+
+    // 🔹 opcional: limpiar token (simula invalidación)
+    localStorage.removeItem("token_votacion");
+
+    // 🔹 redirigir
+    setTimeout(() => {
+      navigate("/votaciones");
+    }, 1000);
+
+  } catch (err) {
+    console.error(err);
+
+    toast({
+      title: "Error al votar",
+      description: "Intenta nuevamente.",
+    });
+  } finally {
+    setLoading(false);
+  }
+};
 
   // 🔹 loading inicial
   if (!votacion) {
@@ -126,10 +162,14 @@ const Votacion = () => {
       <div className="relative z-10 mx-auto max-w-3xl px-6 py-10 md:px-10 md:py-16">
         <header className="mb-12 flex items-center justify-between">
           <Link to="/votaciones" className="flex items-center gap-2">
-            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-primary shadow-glow">
-              <Vote className="h-5 w-5 text-primary-foreground" />
+            <div className="flex h-10 w-10 items-center justify-center overflow-hidden rounded-xl shadow-glow">
+              <img
+                src="/feusam.png"
+                alt="FEUSAM"
+                className="h-full w-full object-contain"
+              />
             </div>
-            <span className="font-display text-2xl font-bold tracking-tight">Voto</span>
+            <span className="font-display text-2xl font-bold tracking-tight">FEUSAM</span>
           </Link>
           <Button asChild variant="ghost" size="sm">
             <Link to="/votaciones">
